@@ -100,27 +100,37 @@ export default function App() {
     0
   );
 
+  const progress = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+
   return (
     <div className="min-h-screen bg-surface">
       {/* Header */}
-      <header className="sticky top-0 z-10 border-b border-border bg-white/80 backdrop-blur-md">
+      <header className="sticky top-0 z-10 border-b border-border-light bg-white/90 backdrop-blur-lg">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
-          <div>
-            <h1 className="text-xl font-bold text-text">Organizador de Tareas</h1>
-            <p className="text-xs text-text-secondary">
-              {totalTasks === 0
-                ? "No hay tareas registradas"
-                : `${completedTasks} de ${totalTasks} tareas completadas`}
-            </p>
+          <div className="flex items-center gap-3">
+            <div className="flex size-9 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-primary-dark text-white shadow-sm">
+              <svg className="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+              </svg>
+            </div>
+            <div>
+              <h1 className="text-lg font-semibold text-text">Organizador de Tareas</h1>
+              <p className="text-xs text-text-tertiary">
+                {totalTasks === 0
+                  ? "No hay tareas registradas"
+                  : `${completedTasks} de ${totalTasks} tareas completadas`}
+              </p>
+            </div>
           </div>
           {totalTasks > 0 && (
-            <div className="h-2 w-32 overflow-hidden rounded-full bg-border">
-              <div
-                className="h-full rounded-full bg-success transition-all duration-500"
-                style={{
-                  width: `${Math.round((completedTasks / totalTasks) * 100)}%`,
-                }}
-              />
+            <div className="flex items-center gap-3">
+              <span className="text-xs font-medium text-text-tertiary">{progress}%</span>
+              <div className="h-2 w-28 overflow-hidden rounded-full bg-border/60">
+                <div
+                  className="h-full rounded-full bg-gradient-to-r from-primary to-success transition-all duration-700 ease-out"
+                  style={{ width: `${progress}%` }}
+                />
+              </div>
             </div>
           )}
         </div>
@@ -128,28 +138,37 @@ export default function App() {
 
       {/* Main content */}
       <main className="mx-auto max-w-5xl space-y-5 px-6 py-8">
-        {sections.map((section) => (
-          <TaskSection
+        {sections.map((section, index) => (
+          <div
             key={section.id}
-            section={section}
-            onAddTask={(title, description) =>
-              addTask(section.id, title, description)
-            }
-            onStatusChange={(taskId, status) =>
-              changeTaskStatus(section.id, taskId, status)
-            }
-            onDeleteTask={(taskId) => deleteTask(section.id, taskId)}
-            onDeleteSection={() => deleteSection(section.id)}
-            onRenameSection={(title) => renameSection(section.id, title)}
-          />
+            className="animate-fade-in-up"
+            style={{ animationDelay: `${index * 80}ms`, animationFillMode: "backwards" }}
+          >
+            <TaskSection
+              section={section}
+              onAddTask={(title, description) =>
+                addTask(section.id, title, description)
+              }
+              onStatusChange={(taskId, status) =>
+                changeTaskStatus(section.id, taskId, status)
+              }
+              onDeleteTask={(taskId) => deleteTask(section.id, taskId)}
+              onDeleteSection={() => deleteSection(section.id)}
+              onRenameSection={(title) => renameSection(section.id, title)}
+            />
+          </div>
         ))}
 
-        <AddSectionForm onAdd={addSection} />
+        <div className="animate-fade-in-up" style={{ animationDelay: `${sections.length * 80}ms`, animationFillMode: "backwards" }}>
+          <AddSectionForm onAdd={addSection} />
+        </div>
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-border py-6 text-center text-xs text-text-secondary/60">
-        Los datos se guardan automáticamente en tu navegador
+      <footer className="border-t border-border-light py-8 text-center text-xs text-text-tertiary/50">
+        <div className="mx-auto max-w-5xl px-6">
+          Los datos se guardan automáticamente en tu navegador
+        </div>
       </footer>
     </div>
   );

@@ -44,9 +44,9 @@ export function TaskSection({
   };
 
   return (
-    <section className="rounded-xl border border-border bg-surface shadow-sm">
+    <section className="rounded-xl border border-border bg-surface-card shadow-card transition-all">
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-border px-5 py-4">
+      <div className="flex items-center justify-between border-b border-border-light px-5 py-4">
         <div className="flex items-center gap-3">
           {isEditing ? (
             <input
@@ -56,11 +56,11 @@ export function TaskSection({
               onBlur={handleRename}
               onKeyDown={(e) => e.key === "Enter" && handleRename()}
               autoFocus
-              className="rounded-md border border-border px-2 py-1 text-lg font-semibold text-text outline-none focus:border-primary"
+              className="animate-fade-in rounded-md border border-border px-2 py-1 text-lg font-semibold text-text outline-none transition-colors focus:border-primary"
             />
           ) : (
             <h2
-              className="text-lg font-semibold text-text cursor-pointer hover:text-primary transition-colors"
+              className="text-lg font-semibold text-text transition-colors hover:text-primary"
               onClick={() => {
                 setEditTitle(section.title);
                 setIsEditing(true);
@@ -70,20 +70,20 @@ export function TaskSection({
               {section.title}
             </h2>
           )}
-          <span className="rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary">
+          <span className="inline-flex min-w-[1.25rem] items-center justify-center rounded-md bg-primary-subtle px-2 py-0.5 text-xs font-medium text-primary">
             {section.tasks.length}
           </span>
         </div>
         <div className="flex items-center gap-2">
           {/* Status filter */}
-          <div className="flex rounded-lg border border-border bg-white p-0.5">
+          <div className="flex rounded-lg border border-border bg-surface p-0.5">
             {filters.map((f) => (
               <button
                 key={f.value}
                 onClick={() => setFilter(f.value)}
-                className={`cursor-pointer rounded-md px-2.5 py-1 text-xs font-medium transition-colors ${
+                className={`cursor-pointer rounded-md px-2.5 py-1 text-xs font-medium transition-all ${
                   filter === f.value
-                    ? "bg-primary text-white"
+                    ? "bg-white text-primary shadow-sm"
                     : "text-text-secondary hover:text-text"
                 }`}
               >
@@ -93,7 +93,7 @@ export function TaskSection({
           </div>
           <button
             onClick={onDeleteSection}
-            className="cursor-pointer rounded-md p-1.5 text-text-secondary/40 transition-colors hover:bg-danger/10 hover:text-danger"
+            className="cursor-pointer rounded-md p-1.5 text-text-tertiary/50 transition-colors hover:bg-danger-subtle hover:text-danger"
             title="Eliminar sección"
           >
             <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -106,20 +106,34 @@ export function TaskSection({
       {/* Task list */}
       <div className="space-y-2 p-5">
         {filteredTasks.length === 0 ? (
-          <p className="py-6 text-center text-sm text-text-secondary/60">
-            {filter === "all"
-              ? "No hay tareas aún. ¡Agrega una!"
-              : "No hay tareas con ese filtro."}
-          </p>
+          <div className="flex flex-col items-center gap-2 py-8 text-center">
+            <div className="flex size-10 items-center justify-center rounded-full bg-primary-subtle">
+              <svg className="size-5 text-primary-light" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+              </svg>
+            </div>
+            <p className="text-sm text-text-tertiary">
+              {filter === "all"
+                ? "No hay tareas aún. ¡Agrega una!"
+                : "No hay tareas con ese filtro."}
+            </p>
+          </div>
         ) : (
-          filteredTasks.map((task) => (
-            <TaskCard
-              key={task.id}
-              task={task}
-              onStatusChange={onStatusChange}
-              onDelete={onDeleteTask}
-            />
-          ))
+          <div className="space-y-2">
+            {filteredTasks.map((task, index) => (
+              <div
+                key={task.id}
+                className="animate-fade-in-up"
+                style={{ animationDelay: `${index * 50}ms`, animationFillMode: "backwards" }}
+              >
+                <TaskCard
+                  task={task}
+                  onStatusChange={onStatusChange}
+                  onDelete={onDeleteTask}
+                />
+              </div>
+            ))}
+          </div>
         )}
         <AddTaskForm onAdd={onAddTask} />
       </div>

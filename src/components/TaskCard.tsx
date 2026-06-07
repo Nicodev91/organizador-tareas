@@ -6,10 +6,16 @@ interface TaskCardProps {
   onDelete: (taskId: string) => void;
 }
 
-const statusColors: Record<TaskStatus, string> = {
-  pending: "bg-warning/10 text-warning border-warning/30",
-  "in-progress": "bg-primary-light/20 text-primary-dark border-primary-light/40",
-  completed: "bg-success/10 text-success border-success/30",
+const accentBorders: Record<TaskStatus, string> = {
+  pending: "border-l-warning/50",
+  "in-progress": "border-l-primary-light/50",
+  completed: "border-l-success/50",
+};
+
+const statusBadgeColors: Record<TaskStatus, string> = {
+  pending: "bg-warning-subtle text-warning",
+  "in-progress": "bg-primary-subtle text-primary-dark",
+  completed: "bg-success-subtle text-success",
 };
 
 const statusLabels: Record<TaskStatus, string> = {
@@ -26,36 +32,38 @@ export function TaskCard({ task, onStatusChange, onDelete }: TaskCardProps) {
   };
 
   return (
-    <div className="group flex items-start gap-3 rounded-lg border border-border bg-surface-card p-4 shadow-sm transition-all hover:shadow-md">
+    <div
+      className={`group relative flex items-start gap-3 rounded-lg border border-border bg-surface-card p-4 shadow-card transition-all duration-200 hover:shadow-card-hover hover:-translate-y-0.5 border-l-[3px] ${accentBorders[task.status]}`}
+    >
       <button
         onClick={() => onStatusChange(task.id, nextStatus[task.status])}
-        className={`mt-0.5 flex size-5 shrink-0 cursor-pointer items-center justify-center rounded-full border-2 transition-colors ${
+        className={`mt-0.5 flex size-5 shrink-0 cursor-pointer items-center justify-center rounded-full border-2 transition-all duration-200 ${
           task.status === "completed"
             ? "border-success bg-success text-white"
-            : "border-border hover:border-primary"
+            : "border-border hover:border-primary hover:bg-primary/5"
         }`}
         title={`Cambiar a ${statusLabels[nextStatus[task.status]].toLowerCase()}`}
       >
         {task.status === "completed" && (
-          <svg className="size-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+          <svg className="size-3 animate-scale-in" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
           </svg>
         )}
       </button>
 
-      <div className="flex-1 space-y-1.5">
+      <div className="min-w-0 flex-1 space-y-1">
         <div className="flex items-center gap-2">
-          <h3 className={`text-sm font-medium text-text ${task.status === "completed" ? "line-through opacity-60" : ""}`}>
+          <h3 className={`truncate text-sm font-medium ${task.status === "completed" ? "text-text-tertiary line-through" : "text-text"}`}>
             {task.title}
           </h3>
-          <span className={`rounded-full border px-2 py-0.5 text-[11px] font-medium ${statusColors[task.status]}`}>
+          <span className={`shrink-0 rounded-md px-1.5 py-0.5 text-[11px] font-medium leading-none ${statusBadgeColors[task.status]}`}>
             {statusLabels[task.status]}
           </span>
         </div>
         {task.description && (
-          <p className="text-xs text-text-secondary leading-relaxed">{task.description}</p>
+          <p className="line-clamp-2 text-xs leading-relaxed text-text-secondary">{task.description}</p>
         )}
-        <p className="text-[11px] text-text-secondary/60">
+        <p className="text-[11px] text-text-tertiary/60">
           {new Date(task.createdAt).toLocaleDateString("es-ES", {
             day: "numeric",
             month: "short",
@@ -67,7 +75,7 @@ export function TaskCard({ task, onStatusChange, onDelete }: TaskCardProps) {
 
       <button
         onClick={() => onDelete(task.id)}
-        className="cursor-pointer rounded p-1 text-text-secondary/40 opacity-0 transition-all hover:bg-danger/10 hover:text-danger group-hover:opacity-100"
+        className="absolute right-3 top-3 cursor-pointer rounded-md p-1 text-text-tertiary/40 opacity-0 transition-all duration-200 hover:bg-danger-subtle hover:text-danger group-hover:opacity-100"
         title="Eliminar tarea"
       >
         <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

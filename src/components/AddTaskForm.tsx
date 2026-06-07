@@ -22,7 +22,7 @@ export function AddTaskForm({ onAdd }: AddTaskFormProps) {
     return (
       <button
         onClick={() => setIsOpen(true)}
-        className="flex w-full cursor-pointer items-center gap-2 rounded-lg border-2 border-dashed border-border px-4 py-3 text-sm text-text-secondary transition-colors hover:border-primary hover:text-primary"
+        className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border-2 border-dashed border-border px-4 py-3 text-sm text-text-tertiary transition-all duration-200 hover:border-primary hover:text-primary hover:bg-primary-subtle/50"
       >
         <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
@@ -33,33 +33,33 @@ export function AddTaskForm({ onAdd }: AddTaskFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="rounded-lg border border-border bg-surface-card p-4 shadow-sm space-y-3">
+    <form onSubmit={handleSubmit} className="animate-slide-down rounded-lg border border-border bg-surface-elevated p-4 shadow-card space-y-3">
       <input
         type="text"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         placeholder="Título de la tarea"
         autoFocus
-        className="w-full rounded-md border border-border bg-white px-3 py-2 text-sm text-text outline-none transition-colors placeholder:text-text-secondary/40 focus:border-primary"
+        className="w-full rounded-md border border-border bg-white px-3 py-2 text-sm text-text outline-none transition-colors placeholder:text-text-tertiary/50 focus:border-primary focus:ring-2 focus:ring-primary/10"
       />
       <textarea
         value={description}
         onChange={(e) => setDescription(e.target.value)}
         placeholder="Descripción (opcional)"
         rows={2}
-        className="w-full rounded-md border border-border bg-white px-3 py-2 text-sm text-text outline-none transition-colors placeholder:text-text-secondary/40 focus:border-primary resize-none"
+        className="w-full rounded-md border border-border bg-white px-3 py-2 text-sm text-text outline-none transition-colors placeholder:text-text-tertiary/50 focus:border-primary focus:ring-2 focus:ring-primary/10 resize-none"
       />
       <div className="flex gap-2">
         <button
           type="submit"
-          className="cursor-pointer rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-white transition-colors hover:bg-primary-dark"
+          className="cursor-pointer rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-white transition-all duration-200 hover:bg-primary-dark active:scale-[0.97]"
         >
           Agregar
         </button>
         <button
           type="button"
           onClick={() => setIsOpen(false)}
-          className="cursor-pointer rounded-md border border-border px-4 py-1.5 text-sm text-text-secondary transition-colors hover:bg-surface"
+          className="cursor-pointer rounded-md border border-border px-4 py-1.5 text-sm text-text-secondary transition-all duration-200 hover:bg-surface active:scale-[0.97]"
         >
           Cancelar
         </button>
