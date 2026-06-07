@@ -75,7 +75,7 @@ export function TaskCard({ task, onStatusChange, onDelete }: TaskCardProps) {
 
       <button
         onClick={() => onDelete(task.id)}
-        className="absolute right-3 top-3 cursor-pointer rounded-md p-1 text-text-tertiary/40 opacity-0 transition-all duration-200 hover:bg-danger-subtle hover:text-danger group-hover:opacity-100"
+        className="absolute right-3 top-3 cursor-pointer rounded-md p-1 text-text-tertiary/40 transition-all duration-200 hover:bg-danger-subtle hover:text-danger sm:opacity-0 sm:group-hover:opacity-100"
         title="Eliminar tarea"
       >
         <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

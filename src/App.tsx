@@ -106,16 +106,16 @@ export default function App() {
     <div className="min-h-screen bg-surface">
       {/* Header */}
       <header className="sticky top-0 z-10 border-b border-border-light bg-white/90 backdrop-blur-lg">
-        <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
-          <div className="flex items-center gap-3">
-            <div className="flex size-9 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-primary-dark text-white shadow-sm">
-              <svg className="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-3 sm:px-6 sm:py-4">
+          <div className="flex min-w-0 items-center gap-2 sm:gap-3">
+            <div className="flex size-8 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-primary-dark text-white shadow-sm sm:size-9">
+              <svg className="size-4 sm:size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
               </svg>
             </div>
-            <div>
-              <h1 className="text-lg font-semibold text-text">Organizador de Tareas</h1>
-              <p className="text-xs text-text-tertiary">
+            <div className="min-w-0">
+              <h1 className="truncate text-base font-semibold text-text sm:text-lg">Organizador de Tareas</h1>
+              <p className="text-[11px] text-text-tertiary sm:text-xs">
                 {totalTasks === 0
                   ? "No hay tareas registradas"
                   : `${completedTasks} de ${totalTasks} tareas completadas`}
@@ -123,9 +123,9 @@ export default function App() {
             </div>
           </div>
           {totalTasks > 0 && (
-            <div className="flex items-center gap-3">
-              <span className="text-xs font-medium text-text-tertiary">{progress}%</span>
-              <div className="h-2 w-28 overflow-hidden rounded-full bg-border/60">
+            <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+              <span className="hidden text-xs font-medium text-text-tertiary sm:inline">{progress}%</span>
+              <div className="h-2 w-20 overflow-hidden rounded-full bg-border/60 sm:w-28">
                 <div
                   className="h-full rounded-full bg-gradient-to-r from-primary to-success transition-all duration-700 ease-out"
                   style={{ width: `${progress}%` }}
@@ -137,7 +137,7 @@ export default function App() {
       </header>
 
       {/* Main content */}
-      <main className="mx-auto max-w-5xl space-y-5 px-6 py-8">
+      <main className="mx-auto max-w-5xl space-y-4 px-4 py-6 sm:space-y-5 sm:px-6 sm:py-8">
         {sections.map((section, index) => (
           <div
             key={section.id}
@@ -165,8 +165,8 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-border-light py-8 text-center text-xs text-text-tertiary/50">
-        <div className="mx-auto max-w-5xl px-6">
+      <footer className="border-t border-border-light py-6 text-center text-xs text-text-tertiary/50 sm:py-8">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6">
           Los datos se guardan automáticamente en tu navegador
         </div>
       </footer>

@@ -38,7 +38,7 @@ export function AddSectionForm({ onAdd }: AddSectionFormProps) {
   }
 
   return (
-    <div className="animate-slide-down rounded-xl border-2 border-dashed border-primary/40 bg-primary-subtle/50 p-5">
+    <div className="animate-slide-down rounded-xl border-2 border-dashed border-primary/40 bg-primary-subtle/50 p-4 sm:p-5">
       <form onSubmit={handleSubmit} className="space-y-3">
         <input
           type="text"
@@ -48,17 +48,17 @@ export function AddSectionForm({ onAdd }: AddSectionFormProps) {
           autoFocus
           className="w-full rounded-md border border-border bg-white px-3 py-2 text-sm text-text outline-none transition-colors placeholder:text-text-tertiary/50 focus:border-primary focus:ring-2 focus:ring-primary/10"
         />
-        <div className="flex gap-2">
+        <div className="flex flex-col gap-2 sm:flex-row">
           <button
             type="submit"
-            className="cursor-pointer rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-white transition-all duration-200 hover:bg-primary-dark active:scale-[0.97]"
+            className="cursor-pointer rounded-md bg-primary px-4 py-2 text-sm font-medium text-white transition-all duration-200 hover:bg-primary-dark active:scale-[0.97] sm:py-1.5"
           >
             Crear sección
           </button>
           <button
             type="button"
             onClick={() => setIsOpen(false)}
-            className="cursor-pointer rounded-md border border-border px-4 py-1.5 text-sm text-text-secondary transition-all duration-200 hover:bg-surface active:scale-[0.97]"
+            className="cursor-pointer rounded-md border border-border px-4 py-2 text-sm text-text-secondary transition-all duration-200 hover:bg-surface active:scale-[0.97] sm:py-1.5"
           >
             Cancelar
           </button>

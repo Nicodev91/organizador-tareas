@@ -46,7 +46,7 @@ export function TaskSection({
   return (
     <section className="rounded-xl border border-border bg-surface-card shadow-card transition-all">
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-border-light px-5 py-4">
+      <div className="flex flex-col gap-3 border-b border-border-light px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-5 sm:py-4">
         <div className="flex items-center gap-3">
           {isEditing ? (
             <input
@@ -56,11 +56,11 @@ export function TaskSection({
               onBlur={handleRename}
               onKeyDown={(e) => e.key === "Enter" && handleRename()}
               autoFocus
-              className="animate-fade-in rounded-md border border-border px-2 py-1 text-lg font-semibold text-text outline-none transition-colors focus:border-primary"
+              className="animate-fade-in rounded-md border border-border px-2 py-1 text-base font-semibold text-text outline-none transition-colors focus:border-primary sm:text-lg"
             />
           ) : (
             <h2
-              className="text-lg font-semibold text-text transition-colors hover:text-primary"
+              className="text-base font-semibold text-text transition-colors hover:text-primary sm:text-lg"
               onClick={() => {
                 setEditTitle(section.title);
                 setIsEditing(true);
@@ -81,7 +81,7 @@ export function TaskSection({
               <button
                 key={f.value}
                 onClick={() => setFilter(f.value)}
-                className={`cursor-pointer rounded-md px-2.5 py-1 text-xs font-medium transition-all ${
+                className={`cursor-pointer rounded-md px-2 py-1 text-[11px] font-medium transition-all sm:px-2.5 sm:py-1 sm:text-xs ${
                   filter === f.value
                     ? "bg-white text-primary shadow-sm"
                     : "text-text-secondary hover:text-text"
@@ -104,7 +104,7 @@ export function TaskSection({
       </div>
 
       {/* Task list */}
-      <div className="space-y-2 p-5">
+      <div className="space-y-2 p-4 sm:p-5">
         {filteredTasks.length === 0 ? (
           <div className="flex flex-col items-center gap-2 py-8 text-center">
             <div className="flex size-10 items-center justify-center rounded-full bg-primary-subtle">
