@@ -50,13 +50,14 @@ export default function App() {
     );
   };
 
-  const addTask = (sectionId: string, title: string, description: string) => {
+  const addTask = (sectionId: string, title: string, description: string, deadlineDays: number | undefined) => {
     const newTask: Task = {
       id: generateId(),
       title,
       description,
       status: "pending",
       createdAt: new Date().toISOString(),
+      ...(deadlineDays !== undefined && { deadlineDays }),
     };
     setSections((prev) =>
       prev.map((s) =>
@@ -146,8 +147,8 @@ export default function App() {
           >
             <TaskSection
               section={section}
-              onAddTask={(title, description) =>
-                addTask(section.id, title, description)
+              onAddTask={(title, description, deadlineDays) =>
+                addTask(section.id, title, description, deadlineDays)
               }
               onStatusChange={(taskId, status) =>
                 changeTaskStatus(section.id, taskId, status)

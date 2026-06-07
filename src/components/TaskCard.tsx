@@ -6,6 +6,33 @@ interface TaskCardProps {
   onDelete: (taskId: string) => void;
 }
 
+function getDaysRemaining(createdAt: string, deadlineDays: number): number {
+  const created = new Date(createdAt);
+  const deadline = new Date(created);
+  deadline.setDate(deadline.getDate() + deadlineDays);
+  const now = new Date();
+  const diff = deadline.getTime() - now.getTime();
+  return Math.ceil(diff / (1000 * 60 * 60 * 24));
+}
+
+function getDeadlineInfo(task: Task): { label: string; colorClass: string } | null {
+  if (!task.deadlineDays) return null;
+  if (task.status === "completed") return null;
+
+  const remaining = getDaysRemaining(task.createdAt, task.deadlineDays);
+
+  if (remaining < 0) {
+    return { label: `${Math.abs(remaining)} días vencido`, colorClass: "text-danger bg-danger-subtle" };
+  }
+  if (remaining === 0) {
+    return { label: "Vence hoy", colorClass: "text-danger bg-danger-subtle" };
+  }
+  if (remaining <= 2) {
+    return { label: `${remaining} día${remaining === 1 ? "" : "s"}`, colorClass: "text-warning bg-warning-subtle" };
+  }
+  return { label: `${remaining} días`, colorClass: "text-success bg-success-subtle" };
+}
+
 const accentBorders: Record<TaskStatus, string> = {
   pending: "border-l-warning/50",
   "in-progress": "border-l-primary-light/50",
@@ -30,6 +57,8 @@ export function TaskCard({ task, onStatusChange, onDelete }: TaskCardProps) {
     "in-progress": "completed",
     completed: "pending",
   };
+
+  const deadlineInfo = getDeadlineInfo(task);
 
   return (
     <div
@@ -63,14 +92,24 @@ export function TaskCard({ task, onStatusChange, onDelete }: TaskCardProps) {
         {task.description && (
           <p className="line-clamp-2 text-xs leading-relaxed text-text-secondary">{task.description}</p>
         )}
-        <p className="text-[11px] text-text-tertiary/60">
-          {new Date(task.createdAt).toLocaleDateString("es-ES", {
-            day: "numeric",
-            month: "short",
-            hour: "2-digit",
-            minute: "2-digit",
-          })}
-        </p>
+        <div className="flex items-center gap-2 text-[11px]">
+          <span className="text-text-tertiary/60">
+            {new Date(task.createdAt).toLocaleDateString("es-ES", {
+              day: "numeric",
+              month: "short",
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
+          </span>
+          {deadlineInfo && (
+            <span className={`inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 font-medium leading-none ${deadlineInfo.colorClass}`}>
+              <svg className="size-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              {deadlineInfo.label}
+            </span>
+          )}
+        </div>
       </div>
 
       <button

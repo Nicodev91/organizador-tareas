@@ -1,20 +1,26 @@
 import { useState } from "react";
 
 interface AddTaskFormProps {
-  onAdd: (title: string, description: string) => void;
+  onAdd: (title: string, description: string, deadlineDays: number | undefined) => void;
 }
 
 export function AddTaskForm({ onAdd }: AddTaskFormProps) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [deadlineDays, setDeadlineDays] = useState<number | "">("");
   const [isOpen, setIsOpen] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!title.trim()) return;
-    onAdd(title.trim(), description.trim());
+    onAdd(
+      title.trim(),
+      description.trim(),
+      deadlineDays === "" ? undefined : Number(deadlineDays)
+    );
     setTitle("");
     setDescription("");
+    setDeadlineDays("");
     setIsOpen(false);
   };
 
@@ -49,6 +55,26 @@ export function AddTaskForm({ onAdd }: AddTaskFormProps) {
         rows={2}
         className="w-full rounded-md border border-border bg-white px-3 py-2 text-sm text-text outline-none transition-colors placeholder:text-text-tertiary/50 focus:border-primary focus:ring-2 focus:ring-primary/10 resize-none"
       />
+      <div className="flex items-center gap-2">
+        <svg className="size-4 shrink-0 text-text-tertiary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6l4 2m6-2a10 10 0 11-20 0 10 10 0 0120 0z" />
+        </svg>
+        <input
+          type="number"
+          value={deadlineDays}
+          onChange={(e) =>
+            setDeadlineDays(
+              e.target.value === ""
+                ? ""
+                : Math.min(365, Math.max(1, Number(e.target.value)))
+            )
+          }
+          placeholder="Días límite (opcional)"
+          min={1}
+          max={365}
+          className="w-full rounded-md border border-border bg-white px-3 py-2 text-sm text-text outline-none transition-colors placeholder:text-text-tertiary/50 focus:border-primary focus:ring-2 focus:ring-primary/10"
+        />
+      </div>
       <div className="flex gap-2">
         <button
           type="submit"

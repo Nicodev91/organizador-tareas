@@ -6,6 +6,7 @@ export interface Task {
   description: string;
   status: TaskStatus;
   createdAt: string;
+  deadlineDays?: number;
 }
 
 export interface Section {

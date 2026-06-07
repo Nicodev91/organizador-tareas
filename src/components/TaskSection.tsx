@@ -5,7 +5,7 @@ import { AddTaskForm } from "./AddTaskForm";
 
 interface TaskSectionProps {
   section: Section;
-  onAddTask: (title: string, description: string) => void;
+  onAddTask: (title: string, description: string, deadlineDays: number | undefined) => void;
   onStatusChange: (taskId: string, status: TaskStatus) => void;
   onDeleteTask: (taskId: string) => void;
   onDeleteSection: () => void;
